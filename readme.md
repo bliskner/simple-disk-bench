@@ -1,9 +1,10 @@
 # disk-bench
 
 disk-bench.c is a simple programm to test multithreaded io requests to a linux disk volume
-initialy developed by http://linuxinsight.com/how_fast_is_your_disk.html
-multithreading support added by https://github.com/meebey/meebey-web/blob/master/research/seeker_baryluk.c (at least i've taken the source from here)
-added write support
+
+- initialy developed by http://linuxinsight.com/how_fast_is_your_disk.html
+- multithreading support added by https://github.com/meebey/meebey-web/blob/master/research/seeker_baryluk.c (at least i've taken the source from here)
+- added write support
 
 ## features:
 - easy to use, understand and modify
