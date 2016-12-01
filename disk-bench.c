@@ -17,7 +17,7 @@
 #include <sys/ioctl.h>
 #include <linux/fs.h>
 
-#define BLOCKSIZE 4096
+#define BLOCKSIZE 4096 // 4kb
 #define TIMEOUT 30
 
 pthread_mutex_t muteks = PTHREAD_MUTEX_INITIALIZER;
@@ -26,7 +26,7 @@ int count;
 time_t start;
 off64_t maxoffset = 0;
 off64_t minoffset = 249994674176000uLL;
-
+int write_mode = 0;
 
 int threads;
 
@@ -64,9 +64,18 @@ void done() {
 }
 
 void report() {
+	char method[11];
+
+	// fill in the method string
+	if ( write_mode == 1 ){
+		strcpy(method,"writes");
+	} else {
+		strcpy(method,"reads");
+	}
+
 	if (count) {
-		printf(".\nResult: %d reads/writes per second, %.3f ms random access time (%llu < offsets < %llu)\n",
-			count / TIMEOUT, 1000.0 * TIMEOUT / count, (unsigned long long)minoffset, (unsigned long long)maxoffset);
+		printf(".\nResult: %d %s per second, %.3f ms random access time (%llu < offsets < %llu)\n",
+			count / TIMEOUT, method, 1000.0 * TIMEOUT / count, (unsigned long long)minoffset, (unsigned long long)maxoffset);
 	}
 	exit(EXIT_SUCCESS);
 }
@@ -126,7 +135,6 @@ int main(int argc, char **argv) {
 	pthread_t *t_id;
 	pthread_attr_t pthread_custom_attr;
 	int i;
-	int write_mode = 0;
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -174,17 +182,26 @@ int main(int argc, char **argv) {
 	retval = ioctl(fd, BLKSSZGET, &physical_sector_size);
 	handle("ioctl", retval == -1 && physical_sector_size > 0);
 	numblocks = ((unsigned long long)numbytes)/(unsigned long long)BLOCKSIZE;
+	printf("running simple disk bench\ndownload and contribute here -> https://github.com/bliskner/simple-disk-bench\n\n");
 	printf("Benchmarking %s [%llu blocks, %llu bytes, %llu GB, %llu MB, %llu GiB, %llu MiB]\n",
 		argv[1], numblocks, numbytes, numbytes/(1024uLL*1024uLL*1024uLL), numbytes / (1024uLL*1024uLL), numbytes/(1000uLL*1000uLL*1000uLL), numbytes / (1000uLL*1000uLL));
 	printf("[%d logical sector size, %d physical sector size]\n", physical_sector_size, physical_sector_size);
-	printf("[%d threads]\n", threads);
-
+	
 	// we tell the user if we run in read or write mode
-	if ( write_mode == 1 ){
-		printf("running in write mode\n");	
-	} else {
-		printf("running in read mode\n");	
-	}
+	char op[12];
+	if ( write_mode == 1 )
+	  strcpy(op, "writing");
+	else
+		strcpy(op, "reading");
+
+	// thread or threads
+	char tstring[9];
+	if ( threads == 1 )
+		strcpy(tstring, "thread");
+	else
+		strcpy(tstring, "threads");
+
+	printf("[running %d %s %s using a blocksize of %d byte]\n", threads, op, tstring, BLOCKSIZE);
 	
 	printf("Wait %d seconds", TIMEOUT);
 
