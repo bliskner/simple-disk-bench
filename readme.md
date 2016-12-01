@@ -23,16 +23,18 @@ specifying the destructive option will execute a write test without asking,
 destroying the data on the specified volume
 
 ```
-./disk-bench device [threads] ["destructive"]
+./disk-bench device [threadcount] ["destructive"]
 ```
 
 ## sample output
 ```
-root@mylinuxhost ~ # ./disk-bench /dev/hdd/san-volume 1
-Benchmarking /dev/hdd/san-volume [26214400 blocks, 107374182400 bytes, 100 GB, 102400 MB, 107 GiB, 107374 MiB]
+root@mylinuxhost ~ # ./disk-bench /dev/vg/san-volume 1
+running simple disk bench
+download and contribute here -> https://github.com/bliskner/simple-disk-bench
+
+Benchmarking /dev/vg/san-volume [7077888 blocks, 28991029248 bytes, 27 GB, 27648 MB, 28 GiB, 28991 MiB]
 [512 logical sector size, 512 physical sector size]
-[1 threads]
-running in read mode
+[running 1 reading thread using a blocksize of 4096 byte]
 Wait 30 seconds..............................
-Result: 3332 reads/writes per second, 0.300 ms random access time (2030650 < offsets < 107371362650)
+Result: 1523 reads per second, 0.186 ms random access time (226732 < offsets < 28990763568)
 ```
