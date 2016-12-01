@@ -28,13 +28,14 @@ destroying the data on the specified volume
 
 ## sample output
 ```
-root@mylinuxhost ~ # ./disk-bench /dev/vg/san-volume 1
-running simple disk bench
+root@mylinuxhost ~ # ./disk-bench /dev/vg/san-volume 20
+running simple-disk-bench
 download and contribute here -> https://github.com/bliskner/simple-disk-bench
 
-Benchmarking /dev/vg/san-volume [7077888 blocks, 28991029248 bytes, 27 GB, 27648 MB, 28 GiB, 28991 MiB]
+Benchmarking /dev/vg/san-volume
+[7077888 blocks, 28991029248 bytes, 27 GB, 27648 MB, 28 GiB, 28991 MiB]
 [512 logical sector size, 512 physical sector size]
-[running 1 reading thread using a blocksize of 4096 byte]
+[running 20 reading thread using a blocksize of 4096 byte]
 Wait 30 seconds..............................
-Result: 1523 reads per second, 0.186 ms random access time (226732 < offsets < 28990763568)
+Result: 8523 reads per second, 0.186 ms random access time (226732 < offsets < 28990763568)
 ```

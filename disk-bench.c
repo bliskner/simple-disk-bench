@@ -182,8 +182,8 @@ int main(int argc, char **argv) {
 	retval = ioctl(fd, BLKSSZGET, &physical_sector_size);
 	handle("ioctl", retval == -1 && physical_sector_size > 0);
 	numblocks = ((unsigned long long)numbytes)/(unsigned long long)BLOCKSIZE;
-	printf("running simple disk bench\ndownload and contribute here -> https://github.com/bliskner/simple-disk-bench\n\n");
-	printf("Benchmarking %s [%llu blocks, %llu bytes, %llu GB, %llu MB, %llu GiB, %llu MiB]\n",
+	printf("running simple-disk-bench\ndownload and contribute here -> https://github.com/bliskner/simple-disk-bench\n\n");
+	printf("Benchmarking %s\n[%llu blocks, %llu bytes, %llu GB, %llu MB, %llu GiB, %llu MiB]\n",
 		argv[1], numblocks, numbytes, numbytes/(1024uLL*1024uLL*1024uLL), numbytes / (1024uLL*1024uLL), numbytes/(1000uLL*1000uLL*1000uLL), numbytes / (1000uLL*1000uLL));
 	printf("[%d logical sector size, %d physical sector size]\n", physical_sector_size, physical_sector_size);
 	
